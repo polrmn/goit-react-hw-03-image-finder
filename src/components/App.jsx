@@ -12,15 +12,15 @@ export class App extends Component {
   }
 
   async componentDidMount() {
-    console.log(await api('cat'));
+    // console.log(await api('cat'));
   }
 
   async componentDidUpdate() {
     const response = await api(this.state.query);
-    const filtredResponse = [];
-    response.map( ({id, webformatURL, largeImageURL}) => {
-      filtredResponse.push({id, webformatURL, largeImageURL})
-    })
+    const filtredResponse = response.map(({ id, webformatURL, largeImageURL }) => {
+        return { id, webformatURL, largeImageURL };
+      })
+    
     this.setState({ images: filtredResponse });
 
   }
