@@ -1,10 +1,10 @@
 
-const ImageGalleryItem = ({  webformatURL }) => {
+const ImageGalleryItem = ({ webformatURL, largeImageURL }) => {
   return (
     <li className="ImageGalleryItem-item">
       <img
         src={webformatURL}
-        alt="cat"
+        alt={largeImageURL}
         className="ImageGalleryItem-image"
       />
     </li>
