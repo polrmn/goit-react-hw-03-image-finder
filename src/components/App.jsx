@@ -20,64 +20,45 @@ export class App extends Component {
 
 
   async componentDidUpdate(_, prevState) {
-    const {query, page} = this.state
-    const response = await api(query, page);
+    const {query, page} = this.state;
+
+    if (query !== prevState.query || page !== prevState.page) {
+      this.setState({ showLoader: true });
+    const response = await api(query, page)
     const filtredResponse = response.map(({ id, webformatURL, largeImageURL }) => {
         return { id, webformatURL, largeImageURL };
       })
-    
-    if (query !== prevState.query) {
-      this.setState({
-        images: filtredResponse,
-        showLoader: false
-      })
-    } 
-    // else if (page === 1) {
-    //   this.setState({
-    //     images: filtredResponse,
-    //     showLoader: false
-    //   });
-    // }
-
-    if (this.state.page > prevState.page) {
-      this.setState({
+    this.setState({
         images: [...this.state.images, ...filtredResponse],
         showLoader: false
       })
-      return
     }
   }
 
 
-  handleFormSubmit = (event) =>{
-    event.preventDefault();
-    const {value} = event.target.elements.query;
+  handleFormSubmit = (value) => {
+    
     this.setState((prevState)=>{
-      if ( prevState.query !== value ) {
-        return ({ query: value, page: 1, showLoader: true });
+      if (prevState.query !== value && value !== '') {
+        return { query: value, page: 1, images: [] };
       }
     })
     
   }
 
   handleLMBtnClick = () => {
-    this.setState((prevState)=>({page: prevState.page + 1, showLoader: true}))
+    this.setState((prevState)=>({page: prevState.page + 1 }))
   }
 
   openModal = (event) => {
     const { alt } = event.target;
     if (alt) {
       this.setState({ showModal: true, modalImg: alt });
-      window.addEventListener('keydown', this.closeModal);
     }
-    
   }
 
-  closeModal = (event) => {
-    if (event.code === 'Escape' || event.target === event.currentTarget) {
-      this.setState({ showModal: false });
-      window.removeEventListener('keydown', this.closeModal);
-    }
+  onCloseModal = () => {
+      this.setState({ showModal: false, modalImg: '' });
   }
 
   render () {
@@ -104,7 +85,7 @@ export class App extends Component {
           )
         )}
         {this.state.showModal && (
-          <Modal img={this.state.modalImg} onOverlayClick={this.closeModal} />
+          <Modal img={this.state.modalImg} onCloseModal={this.onCloseModal} />
         )}
       </>
     );

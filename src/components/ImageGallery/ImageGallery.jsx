@@ -3,12 +3,13 @@ import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 
 const ImageGallery = ({ items, onClick }) => {
   return (
-    <ul className="ImageGallery" onClick={onClick}>
+    <ul className="ImageGallery">
       {items.map(({ id, webformatURL, largeImageURL }) => (
         <ImageGalleryItem
           key={id}
           webformatURL={webformatURL}
           largeImageURL={largeImageURL}
+          onClick={onClick}
         />
       ))}
     </ul>
