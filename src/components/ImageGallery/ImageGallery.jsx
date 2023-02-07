@@ -1,5 +1,5 @@
-const { default: ImageGalleryItem } = require("components/ImageGalleryItem/ImageGalleryItem")
-
+import PropTypes from 'prop-types';
+import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 
 const ImageGallery = ({ items, onClick }) => {
   return (
@@ -13,6 +13,16 @@ const ImageGallery = ({ items, onClick }) => {
       ))}
     </ul>
   );
+};
+
+ImageGallery.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      webformatURL: PropTypes.string.isRequired,
+      largeImageURL: PropTypes.string.isRequired,
+    })
+  ),
 };
 
 export default ImageGallery;

@@ -1,4 +1,5 @@
 import { createPortal } from "react-dom";
+import PropTypes from 'prop-types';
 
 const Modal = ({ img, onOverlayClick }) => {
   return createPortal(
@@ -9,6 +10,11 @@ const Modal = ({ img, onOverlayClick }) => {
     </div>, 
     document.getElementById('modal')
   );
+};
+
+Modal.propTypes = {
+  img: PropTypes.string.isRequired,
+  onOverlayClick: PropTypes.func.isRequired
 };
 
 export default Modal
